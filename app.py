@@ -6,7 +6,8 @@ from groq import Groq
 # 1. API Key Binding
 os.environ["GROQ_API_KEY"] = "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"
 
-st.set_page_config(page_title="Advocate Portal", page_icon="??", layout="centered")
+st.set_page_config(page_title="Law Legacy - AI Legal Portal", page_icon="⚖️", layout="centered")
+
 
 # 2. Executive Corporate Theme Design
 st.markdown("""
@@ -30,7 +31,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Office Identity Brand Headers
-st.markdown("<h1 style='text-align: center; color: #1E3A8A; margin-bottom: 0px;'>CHAMBER OF ADVOCATE RAFAQAT ABBAS</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: #1E3A8A; margin-bottom: 0px;'>LAW LEGACY</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; color: #64748B; font-size: 16px; font-weight: 500; margin-top: 5px; letter-spacing: 1px;'>HIGH COURT LEGAL CONSULTANT & AI ASSISTANCE PORTAL</p>", unsafe_allow_html=True)
 st.markdown("<div style='border-top: 3px double #D4AF37; width: 60%; margin: 15px auto 30px auto;'></div>", unsafe_allow_html=True)
 
