@@ -11,49 +11,70 @@ os.environ["GROQ_API_KEY"] = "gsk_TrJmaXb8fFPlhPL8afnoWGdyb3FYtZM51joSo1KkbfblaT
 # Page Configuration
 st.set_page_config(page_title="Law Legacy | Advocate Rafaqat Abbas", page_icon="⚖️", layout="centered")
 
-# Custom Premium Header Styling
+# Advanced Mobile Responsive UI Theme Design
 st.markdown("""
     <style>
+    /* Executive Soft Clean Background */
     .stApp {
         background: radial-gradient(circle, #f8fafc 0%, #f1f5f9 100%);
     }
+    
+    /* Modern Glass-morphic Responsive Container */
     .block-container {
         background: #ffffff;
-        padding: 50px !important;
+        padding: 5% !important;
         border-radius: 20px;
         box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
         border: 1px solid #e2e8f0;
-        margin-top: 40px;
+        margin-top: 20px;
     }
+    
+    /* Mobile First Responsive Adjustments */
+    @media (max-width: 768px) {
+        .block-container {
+            padding: 20px 15px !important;
+            margin-top: 10px;
+            border-radius: 12px;
+            box-shadow: none;
+            border: none;
+        }
+        .main-title {
+            font-size: 26px !important;
+        }
+        .sub-title {
+            font-size: 12px !important;
+        }
+    }
+    
     .main-title {
         font-family: 'Cinzel', 'Georgia', serif;
-        font-size: 40px;
+        font-size: 38px;
         font-weight: 800;
         color: #1E3A8A;
         text-align: center;
-        letter-spacing: 2px;
+        letter-spacing: 1px;
         margin-bottom: 0px;
         text-transform: uppercase;
     }
     .sub-title {
         font-family: 'Montserrat', 'Arial', sans-serif;
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 600;
         color: #D97706;
         text-align: center;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
         margin-top: 5px;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         text-transform: uppercase;
     }
     .section-header {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 700;
         color: #1F2937;
         border-bottom: 2px solid #D97706;
         padding-bottom: 6px;
-        margin-top: 15px;
-        margin-bottom: 20px;
+        margin-top: 10px;
+        margin-bottom: 15px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -104,24 +125,25 @@ def get_relevant_context(user_query, documents):
     return relevant_text
 
 # Define Tabs
-tab1, tab2 = st.tabs(["🤖 AI Legal Assistant (PPC & CPC)", "📅 Book Appointment"])
+tab1, tab2 = st.tabs(["🤖 AI Assistant (PPC/CPC)", "📅 Book Appointment"])
 
 # TAB 1: AI Legal Assistant (Dual Powered Brain)
 with tab1:
     st.markdown("<div class='section-header'>Consult AI Legal Intelligence</div>", unsafe_allow_html=True)
     
-    status_html = "<span style='background-color:#E0F2FE; color:#0369A1; padding:4px 8px; border-radius:4px; font-weight:600; font-size:12px; margin-right:5px;'>PPC Database: Connected</span>"
+    status_html = "<span style='background-color:#E0F2FE; color:#0369A1; padding:4px 8px; border-radius:4px; font-weight:600; font-size:11px; margin-right:5px;'>PPC Connected</span>"
     if os.path.exists("cpc.pdf"):
-        status_html += "<span style='background-color:#E0F2FE; color:#0369A1; padding:4px 8px; border-radius:4px; font-weight:600; font-size:12px;'>CPC Database: Connected</span>"
-    else:
-        status_html += "<span style='background-color:#F3F4F6; color:#4B5563; padding:4px 8px; border-radius:4px; font-weight:600; font-size:12px;'>CPC: File Missing</span>"
-        
+        status_html += "<span style='background-color:#E0F2FE; color:#0369A1; padding:4px 8px; border-radius:4px; font-weight:600; font-size:11px;'>CPC Connected</span>"
     st.markdown(status_html, unsafe_allow_html=True)
     st.write("")
     
-    user_query = st.text_input("Apna Legal Sawal Yahan Likhein (PPC ya CPC ke mutabiq):", placeholder="e.g. Theft punishment or Civil Suit Stay Order procedure...")
+    # Text input field
+    user_query = st.text_input("Apna Legal Sawal Yahan Likhein:", placeholder="e.g. Theft punishment or Stay order code...")
     
-    if user_query:
+    # RUN QUERY ARROW BUTTON (No keyboard enter required for mobile users)
+    run_button = st.button("Run Query ➡️", use_container_width=True)
+    
+    if user_query and run_button:
         with st.spinner("Analyzing PPC & CPC Legal Databases..."):
             try:
                 context_data = get_relevant_context(user_query, chunks)
@@ -145,12 +167,12 @@ with tab1:
                     model="openai/gpt-oss-20b",
                 )
                 
-                st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
+                st.markdown("<br><b style='color: #1E3A8A; font-size: 16px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
                 st.info(response.choices.message.content)
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# TAB 2: Appointment Form (100% Fixed WhatsApp String Formatting)
+# TAB 2: Appointment Form
 with tab2:
     st.markdown("<div class='section-header'>Schedule a Private Consultation</div>", unsafe_allow_html=True)
     name = st.text_input("Aap ka Naam (Full Name):")
@@ -158,11 +180,9 @@ with tab2:
     case_type = st.selectbox("Case Category:", ["Civil Matter", "Criminal Matter", "Property Dispute", "Family Law", "Corporate Law"])
     details = st.text_area("Case Summary (Brief Tafseel):")
 
-    if st.button("Submit Appointment Request"):
+    if st.button("Submit Appointment Request", use_container_width=True):
         if name and phone:
             target_phone = "923315605159"
-            
-            # Clean string building without escaping bugs
             raw_msg = (
                 "Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\n"
                 f"Name: {name}\n"
