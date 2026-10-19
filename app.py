@@ -113,7 +113,7 @@ def get_relevant_context(user_query, documents):
 # Define Tabs
 tab1, tab2, tab3 = st.tabs(["🤖 AI Assistant (PPC/CPC)", "📅 Book Appointment", "🔒 Admin Dashboard"])
 
-# TAB 1: AI Legal Assistant (100% Guaranteed Error-Free Extraction)
+# TAB 1: AI Legal Assistant
 with tab1:
     st.markdown("<div class='section-header'>Consult AI Legal Intelligence</div>", unsafe_allow_html=True)
     
@@ -140,7 +140,6 @@ with tab1:
                 
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 16px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
                 
-                # GUARANTEED FIX TRICK: Native text attribute extraction bypassing any list array crash bugs
                 raw_choices = response.choices
                 first_choice = raw_choices[0]
                 extracted_msg = first_choice.message
@@ -151,7 +150,7 @@ with tab1:
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# TAB 2: Appointment Form (100% Fixed Official Streamlit Component)
+# TAB 2: Appointment Form
 db_file = "appointments.csv"
 with tab2:
     st.markdown("<div class='section-header'>Schedule a Private Consultation</div>", unsafe_allow_html=True)
@@ -172,13 +171,12 @@ with tab2:
                 
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
-            # Pure standard URL quote system
+            # Sahi WhatsApp URL formatting (/ ke saath)
             target_phone = "923315605159"
             clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
             encoded_msg = urllib.parse.quote(clean_text)
-            whatsapp_url = f"https://wa.me{target_phone}?text={encoded_msg}"
+            whatsapp_url = f"https://wa.me/{target_phone}?text={encoded_msg}"
             
-            # Official Streamlit connection to bypass layout freeze errors
             st.link_button("Open WhatsApp to Confirm Booking 💬", whatsapp_url, use_container_width=True)
         else:
             st.error("Meharbani karke Naam aur Phone number lazmi darj karein.")
