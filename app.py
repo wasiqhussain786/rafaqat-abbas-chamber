@@ -10,8 +10,12 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 # 1. API Key Binding
 os.environ["GROQ_API_KEY"] = "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"
 
-# Page Configuration
-st.set_page_config(page_title="Law Legacy | Advocate Rafaqat Abbas", page_icon="⚖️", layout="centered")
+# Page Configuration - Search Engine Optimization for Rawalpindi & Islamabad
+st.set_page_config(
+    page_title="Advocate Rafaqat Abbas | Best High Court Lawyer Rawalpindi & Islamabad", 
+    page_icon="⚖️", 
+    layout="centered"
+)
 
 # Advanced Mobile Responsive UI Theme Design
 st.markdown("""
@@ -35,16 +39,18 @@ st.markdown("""
             box-shadow: none;
             border: none;
         }
-        .main-title { font-size: 26px !important; }
-        .sub-title { font-size: 12px !important; }
+        .main-title { font-size: 24px !important; }
+        .sub-title { font-size: 11px !important; }
+        .location-badge { font-size: 11px !important; }
     }
     .main-title {
         font-family: 'Cinzel', 'Georgia', serif;
-        font-size: 38px;
+        font-size: 36px;
         font-weight: 800;
         color: #1E3A8A;
         text-align: center;
         text-transform: uppercase;
+        margin-bottom: 0px;
     }
     .sub-title {
         font-family: 'Montserrat', 'Arial', sans-serif;
@@ -53,8 +59,22 @@ st.markdown("""
         color: #D97706;
         text-align: center;
         margin-top: 5px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .location-badge {
+        text-align: center;
+        background-color: #F1F5F9;
+        color: #1E3A8A;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 13px;
+        width: fit-content;
+        margin: 0 auto 25px auto;
+        border: 1px solid #CBD5E1;
+        letter-spacing: 0.5px;
     }
     .section-header {
         font-size: 18px;
@@ -68,9 +88,10 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Main Premium Header
+# Main Premium Header with Location Highlighting
 st.markdown("<h1 class='main-title'>⚖️ LAW LEGACY</h1>", unsafe_allow_html=True)
-st.markdown("<p class='sub-title'>Advocate Rafaqat Abbas | High Court Legal Services</p>", unsafe_allow_html=True)
+st.markdown("<p class='sub-title'>Chamber of Advocate Rafaqat Abbas | High Court Legal Services</p>", unsafe_allow_html=True)
+st.markdown("<div class='location-badge'>📍 Serving Clients in Rawalpindi, Islamabad & Islamabad High Court</div>", unsafe_allow_html=True)
 
 # ========================================================
 # ADVANCED DUAL-PDF LOADING & PROCESSING SYSTEM (PPC + CPC)
@@ -131,7 +152,7 @@ with tab1:
             try:
                 context_data = get_relevant_context(user_query, chunks)
                 client = Groq()
-                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer in clear Roman Urdu or simple Urdu based on the provided law book context. At the end, you MUST always add this exact line: 'Kanooni mashware ya mazeed rabte ke lie is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
+                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Rawalpindi & Islamabad. Answer in clear Roman Urdu or simple Urdu based on the provided law book context. At the end, you MUST always add this exact line: 'Kanooni mashware ya specialized legal help ke lie aap hamare Rawalpindi/Islamabad chamber par tashreef la sakte hain ya is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
                 
                 response = client.chat.completions.create(
                     messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_query}],
@@ -171,11 +192,10 @@ with tab2:
                 
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
-            # Sahi WhatsApp URL formatting (/ ke saath)
             target_phone = "923315605159"
-            clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
+            clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas (Rawalpindi/Islamabad).\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
             encoded_msg = urllib.parse.quote(clean_text)
-            whatsapp_url = f"https://wa.me/{target_phone}?text={encoded_msg}"
+            whatsapp_url = f"https://wa.me{target_phone}?text={encoded_msg}"
             
             st.link_button("Open WhatsApp to Confirm Booking 💬", whatsapp_url, use_container_width=True)
         else:
