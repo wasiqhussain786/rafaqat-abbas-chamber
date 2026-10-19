@@ -14,6 +14,17 @@ st.set_page_config(page_title="Law Legacy | Advocate Rafaqat Abbas", page_icon="
 # Custom Premium Header Styling
 st.markdown("""
     <style>
+    .stApp {
+        background: radial-gradient(circle, #f8fafc 0%, #f1f5f9 100%);
+    }
+    .block-container {
+        background: #ffffff;
+        padding: 50px !important;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
+        border: 1px solid #e2e8f0;
+        margin-top: 40px;
+    }
     .main-title {
         font-family: 'Cinzel', 'Georgia', serif;
         font-size: 40px;
@@ -109,7 +120,7 @@ with tab1:
     st.markdown(status_html, unsafe_allow_html=True)
     st.write("")
     
-    user_query = st.text_input("Apna Legal Sawal Yahan Likhein (PPC ya CPC ke mutabiq):", placeholder="e.g. Theft punishment or Civil Suit Stay Order procedure...")
+    user_query = st.st = st.text_input("Apna Legal Sawal Yahan Likhein (PPC ya CPC ke mutabiq):", placeholder="e.g. Theft punishment or Civil Suit Stay Order procedure...")
     
     if user_query:
         with st.spinner("Analyzing PPC & CPC Legal Databases..."):
@@ -136,7 +147,8 @@ with tab1:
                 )
                 
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
-                st.info(response.choices.message.content)
+                # FIXED SYNTAX INDEXING: response.choices[0].message.content applied
+                st.info(response.choices[0].message.content)
             except Exception as e:
                 st.error(f"Error: {e}")
 
