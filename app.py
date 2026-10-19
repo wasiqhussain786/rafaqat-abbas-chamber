@@ -72,9 +72,7 @@ with tab2:
         whatsapp_msg = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\n\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
         encoded_msg = urllib.parse.quote(whatsapp_msg)
         whatsapp_url = f"https://wa.me/{target_phone}?text={encoded_msg}"
-        
         # Link button redirect
-        st.markdown(f'<a href="{whatsapp_url}" target="_blank"><button style="background-color:#25D366; color:white; padding:10px 20px; border:none; border-radius:5px; font-size:16px; cursor:pointer;">Click Here to Send Details to Advocate Rafaqat via WhatsApp</button></a>', unsafe_allow_html=True)
-            ''', unsafe_allow_html=True)
-        else:
-            st.error("Meharbani karke Naam aur Phone number lazmi darj karein.")
+        st.markdown(f'<a href="{whatsapp_url}" target="_blank"><button style="background-color:#25D366; color:white; padding:10px 20px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Confirm Booking via WhatsApp</button></a>', unsafe_allow_html=True)
+    else:
+        st.error("Meharbani karke Naam aur Phone number lazmi darj karein.")`
