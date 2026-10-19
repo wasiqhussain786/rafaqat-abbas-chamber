@@ -1,6 +1,10 @@
 import streamlit as st
 from groq import Groq
+import os
 import urllib.parse
+
+# 1. API Key Binding (Groq se connect karne ke liye zaroori hai)
+os.environ["GROQ_API_KEY"] = "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"
 
 # Page Configuration
 st.set_page_config(page_title="Law Legacy | Advocate Rafaqat Abbas", page_icon="⚖️", layout="centered")
@@ -56,17 +60,19 @@ with tab1:
         with st.spinner("Analyzing PPC Legal Database..."):
             try:
                 client = Groq()
-                system_prompt = "You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer the user query based on Pakistan Penal Code (PPC)."
+                # 2. System prompt updated to enforce Roman Urdu and your phone number entry
+                system_prompt = "You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer the user query based on Pakistan Penal Code (PPC) in clear Roman Urdu. At the end, you MUST always add this exact line: 'Kanooni mashware ya mazeed rabte ke lie is number per rabta krein: 03315605159'."
                 
                 response = client.chat.completions.create(
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_query}
                     ],
-                    model="llama3-8b-8192",
+                    model="openai/gpt-oss-20b",  # 3. Model fixed to stable active production version
                 )
                 
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
+                # 4. Correct response syntax choice extraction applied
                 st.info(response.choices[0].message.content)
             except Exception as e:
                 st.error(f"Error: {e}")
