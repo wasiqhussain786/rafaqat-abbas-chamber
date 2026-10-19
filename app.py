@@ -2,7 +2,7 @@ import streamlit as st
 from groq import Groq
 import os
 import pandas as pd
-import urllib.parse  # 100% Fixed URL Encoder Matrix Tool
+import urllib.parse
 from datetime import datetime
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -113,7 +113,7 @@ def get_relevant_context(user_query, documents):
 # Define Tabs
 tab1, tab2, tab3 = st.tabs(["🤖 AI Assistant (PPC/CPC)", "📅 Book Appointment", "🔒 Admin Dashboard"])
 
-# TAB 1: AI Legal Assistant
+# TAB 1: AI Legal Assistant (100% Fixed Text Processing)
 with tab1:
     st.markdown("<div class='section-header'>Consult AI Legal Intelligence</div>", unsafe_allow_html=True)
     
@@ -132,13 +132,22 @@ with tab1:
                 context_data = get_relevant_context(user_query, chunks)
                 client = Groq()
                 system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer in clear Roman Urdu or simple Urdu based on the provided law book context. At the end, you MUST always add this exact line: 'Kanooni mashware ya mazeed rabte ke lie is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
+                
                 response = client.chat.completions.create(
                     messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_query}],
                     model="openai/gpt-oss-20b"
                 )
+                
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 16px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
-                # FIXED SYNTAX INDEX SELECTOR 
-                st.info(response.choices.message.content)
+                
+                # NAYI TECHNIQUE: List structure ko variables se pehle hi check aur clear kar liya hai
+                choices_list = response.choices
+                first_choice = choices_list[0]
+                message_object = first_choice.message
+                final_answer = message_object.content
+                
+                st.info(final_answer)
+                
             except Exception as e:
                 st.error(f"Error: {e}")
 
@@ -163,15 +172,11 @@ with tab2:
                 
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
-            # ABSOLUTE FIXED WHATSAPP ROUTING LINK (Using strict safe url encoding)
             target_phone = "923315605159"
             clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
-            
-            # url encoding strings natively to avoid breaking spaces
             encoded_msg = urllib.parse.quote_plus(clean_text)
             whatsapp_url = f"https://wa.me{target_phone}?text={encoded_msg}"
             
-            # Interactive markdown href anchor component button to secure native cross-platform redirections
             st.markdown(f'''
                 <a href="{whatsapp_url}" target="_blank" style="text-decoration: none;">
                     <div style="background-color: #1E3A8A; color: white; text-align: center; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%;">
