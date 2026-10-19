@@ -21,14 +21,13 @@ with tab1:
                 client = Groq()
                 system_prompt = "You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer the user query based on Pakistan Penal Code (PPC)."
                 
-                response = client.chat.completions.create(
+response = client.chat.completions.create(
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_query}
                     ],
-                    model="llama-3.3-70b-versatile",
+                    model="llama-3.1-70b-versatile",
                 )
-                st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Response:</b>", unsafe_allow_html=True)
                 st.info(response.choices[0].message.content)
             except Exception as e:
                 st.error(f"Error: {e}")
