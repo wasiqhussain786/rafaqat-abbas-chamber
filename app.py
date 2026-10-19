@@ -55,7 +55,7 @@ with tab1:
                     model="openai/gpt-oss-20b",
                 )
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Response:</b>", unsafe_allow_html=True)
-                st.info(response.choices.message.content)
+                st.info(response.choices[0].message.content)
             except Exception as e:
                 st.error(f"Error: {e}")
 
