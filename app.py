@@ -5,12 +5,12 @@ import urllib.parse
 # Page Configuration
 st.set_page_config(page_title="Law Legacy | Advocate Rafaqat Abbas", page_icon="⚖️", layout="centered")
 
-# Premium Custom Styling Header
+# Custom Premium Header Styling
 st.markdown("""
     <style>
     .main-title {
         font-family: 'Cinzel', 'Georgia', serif;
-        font-size: 42px;
+        font-size: 40px;
         font-weight: 800;
         color: #1E3A8A;
         text-align: center;
@@ -20,7 +20,7 @@ st.markdown("""
     }
     .sub-title {
         font-family: 'Montserrat', 'Arial', sans-serif;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 600;
         color: #D97706;
         text-align: center;
@@ -30,11 +30,11 @@ st.markdown("""
         text-transform: uppercase;
     }
     .section-header {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 700;
         color: #1F2937;
         border-bottom: 2px solid #D97706;
-        padding-bottom: 8px;
+        padding-bottom: 6px;
         margin-top: 15px;
         margin-bottom: 20px;
     }
@@ -58,15 +58,29 @@ with tab1:
                 client = Groq()
                 system_prompt = "You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer the user query based on Pakistan Penal Code (PPC)."
                 
-                response = client.chat.completions.create(
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_query}
-                    ],
-                    model="llama3-8b-8192",
-                )
-                st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
-                st.info(response.choices[0].message.content)
+                # List of active models in order of priority
+                models_to_try = ["llama-3.3-70b-versatile", "llama3-70b-8192", "llama3-8b-8192"]
+                response = None
+                
+                for model_name in models_to_try:
+                    try:
+                        response = client.chat.completions.create(
+                            messages=[
+                                {"role": "system", "content": system_prompt},
+                                {"role": "user", "content": user_query}
+                            ],
+                            model=model_name,
+                        )
+                        if response:
+                            break
+                    except Exception:
+                        continue
+                
+                if response:
+                    st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
+                    st.info(response.choices[0].message.content)
+                else:
+                    st.error("API Service filhal busy hai, meharbani karke thodi der baad dobara try karein.")
             except Exception as e:
                 st.error(f"Error: {e}")
 
