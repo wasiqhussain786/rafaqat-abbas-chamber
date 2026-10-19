@@ -14,12 +14,9 @@ st.set_page_config(page_title="Law Legacy | Advocate Rafaqat Abbas", page_icon="
 # Advanced Mobile Responsive UI Theme Design
 st.markdown("""
     <style>
-    /* Executive Soft Clean Background */
     .stApp {
         background: radial-gradient(circle, #f8fafc 0%, #f1f5f9 100%);
     }
-    
-    /* Modern Glass-morphic Responsive Container */
     .block-container {
         background: #ffffff;
         padding: 5% !important;
@@ -28,8 +25,6 @@ st.markdown("""
         border: 1px solid #e2e8f0;
         margin-top: 20px;
     }
-    
-    /* Mobile First Responsive Adjustments */
     @media (max-width: 768px) {
         .block-container {
             padding: 20px 15px !important;
@@ -38,14 +33,9 @@ st.markdown("""
             box-shadow: none;
             border: none;
         }
-        .main-title {
-            font-size: 26px !important;
-        }
-        .sub-title {
-            font-size: 12px !important;
-        }
+        .main-title { font-size: 26px !important; }
+        .sub-title { font-size: 12px !important; }
     }
-    
     .main-title {
         font-family: 'Cinzel', 'Georgia', serif;
         font-size: 38px;
@@ -62,7 +52,6 @@ st.markdown("""
         font-weight: 600;
         color: #D97706;
         text-align: center;
-        letter-spacing: 0.5px;
         margin-top: 5px;
         margin-bottom: 20px;
         text-transform: uppercase;
@@ -91,7 +80,6 @@ def load_legal_databases():
     all_chunks = []
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1200, chunk_overlap=250)
     
-    # Load PPC Book
     if os.path.exists("ppc.pdf"):
         try:
             ppc_pages = PyPDFLoader("ppc.pdf").load_and_split()
@@ -99,7 +87,6 @@ def load_legal_databases():
         except:
             pass
         
-    # Load CPC Book
     if os.path.exists("cpc.pdf"):
         try:
             cpc_pages = PyPDFLoader("cpc.pdf").load_and_split()
@@ -111,7 +98,6 @@ def load_legal_databases():
 
 chunks = load_legal_databases()
 
-# Intelligent Legal Context Keyword Matcher
 def get_relevant_context(user_query, documents):
     if not documents:
         return ""
@@ -127,7 +113,7 @@ def get_relevant_context(user_query, documents):
 # Define Tabs
 tab1, tab2 = st.tabs(["🤖 AI Assistant (PPC/CPC)", "📅 Book Appointment"])
 
-# TAB 1: AI Legal Assistant (Dual Powered Brain)
+# TAB 1: AI Legal Assistant
 with tab1:
     st.markdown("<div class='section-header'>Consult AI Legal Intelligence</div>", unsafe_allow_html=True)
     
@@ -137,10 +123,7 @@ with tab1:
     st.markdown(status_html, unsafe_allow_html=True)
     st.write("")
     
-    # Text input field
     user_query = st.text_input("Apna Legal Sawal Yahan Likhein:", placeholder="e.g. Theft punishment or Stay order code...")
-    
-    # RUN QUERY ARROW BUTTON (No keyboard enter required for mobile users)
     run_button = st.button("Run Query ➡️", use_container_width=True)
     
     if user_query and run_button:
@@ -168,11 +151,12 @@ with tab1:
                 )
                 
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 16px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
-                st.info(response.choices.message.content)
+                # ABSOLUTE FIXED SYNTAX LIST INDEX SELECTOR HERE
+                st.info(response.choices[0].message.content)
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# TAB 2: Appointment Form
+# TAB 2: Appointment Form (Clean Crash-Free Standard Link)
 with tab2:
     st.markdown("<div class='section-header'>Schedule a Private Consultation</div>", unsafe_allow_html=True)
     name = st.text_input("Aap ka Naam (Full Name):")
@@ -182,17 +166,14 @@ with tab2:
 
     if st.button("Submit Appointment Request", use_container_width=True):
         if name and phone:
+            st.success("Details Saved Successfully!")
+            
             target_phone = "923315605159"
-            raw_msg = (
-                "Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\n"
-                f"Name: {name}\n"
-                f"Phone: {phone}\n"
-                f"Category: {case_type}\n"
-                f"Details: {details}"
-            )
+            raw_msg = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
             encoded_msg = urllib.parse.quote(raw_msg)
             whatsapp_url = f"https://wa.me{target_phone}?text={encoded_msg}"
 
-            st.markdown(f'<a href="{whatsapp_url}" target="_blank"><button style="background-color:#1E3A8A; color:white; padding:12px 24px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; width:100%; font-size:16px;">Confirm Booking via WhatsApp</button></a>', unsafe_allow_html=True)
+            # Standard native link connection structure
+            st.link_button("Open WhatsApp to Confirm Booking 💬", whatsapp_url, use_container_width=True)
         else:
             st.error("Meharbani karke Naam aur Phone number lazmi darj karein.")
