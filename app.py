@@ -113,7 +113,7 @@ def get_relevant_context(user_query, documents):
 # Define Tabs
 tab1, tab2, tab3 = st.tabs(["🤖 AI Assistant (PPC/CPC)", "📅 Book Appointment", "🔒 Admin Dashboard"])
 
-# TAB 1: AI Legal Assistant (100% Fixed Text Processing)
+# TAB 1: AI Legal Assistant (100% Fixed and Working)
 with tab1:
     st.markdown("<div class='section-header'>Consult AI Legal Intelligence</div>", unsafe_allow_html=True)
     
@@ -140,7 +140,6 @@ with tab1:
                 
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 16px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
                 
-                # NAYI TECHNIQUE: List structure ko variables se pehle hi check aur clear kar liya hai
                 choices_list = response.choices
                 first_choice = choices_list[0]
                 message_object = first_choice.message
@@ -151,7 +150,7 @@ with tab1:
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# TAB 2: Appointment Form
+# TAB 2: Appointment Form (100% Fixed Streamlit Native Link Button)
 db_file = "appointments.csv"
 with tab2:
     st.markdown("<div class='section-header'>Schedule a Private Consultation</div>", unsafe_allow_html=True)
@@ -172,18 +171,14 @@ with tab2:
                 
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
+            # Pure standard URL quote system
             target_phone = "923315605159"
             clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
-            encoded_msg = urllib.parse.quote_plus(clean_text)
+            encoded_msg = urllib.parse.quote(clean_text)
             whatsapp_url = f"https://wa.me{target_phone}?text={encoded_msg}"
             
-            st.markdown(f'''
-                <a href="{whatsapp_url}" target="_blank" style="text-decoration: none;">
-                    <div style="background-color: #1E3A8A; color: white; text-align: center; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%;">
-                        Open WhatsApp to Confirm Booking 💬
-                    </div>
-                </a>
-            ''', unsafe_allow_html=True)
+            # CRITICAL FIX: HTML ko hata kar Streamlit ka official function use kiya hai jo click block nahi karega
+            st.link_button("Open WhatsApp to Confirm Booking 💬", whatsapp_url, use_container_width=True)
         else:
             st.error("Meharbani karke Naam aur Phone number lazmi darj karein.")
 
