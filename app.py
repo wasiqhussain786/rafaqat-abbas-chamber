@@ -38,30 +38,32 @@ with tab1:
     st.subheader("Ask about Pakistan Penal Code (PPC)")
     user_query = st.text_input("Apna legal masla ya kanoon yahan darj karein:")
 
-    if user_query:
+if user_query:
         with st.spinner("Analyzing PPC Legal Database..."):
             try:
                 client = Groq()
-        system_prompt = "You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer the user query based on Pakistan Penal Code (PPC)."
-        
-        response = client.chat.completions.create(
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_query}
-            ],
-            model="llama-3.3-70b-versatile",
-        )
-        st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Response:</b>", unsafe_allow_html=True)
-        st.info(response.choices[0].message.content)
-    except Exception as e:
-        st.error(f"Error: {e}")
+                system_prompt = "You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer the user query based on Pakistan Penal Code (PPC)."
+                
+                response = client.chat.completions.create(
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_query}
+                    ],
+                    model="llama-3.3-70b-versatile",
+                )
+                st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Response:</b>", unsafe_allow_html=True)
+                st.info(response.choices[0].message.content)
+            except Exception as e:
+                st.error(f"Error: {e}")
 
 # TAB 2: Appointment Form Connecting to WhatsApp
 with tab2:
     st.subheader("Book Your Appointment Slot")
     name = st.text_input("Aap ka Naam (Full Name):")
     phone = st.text_input("WhatsApp / Contact Number:")
-    case_type = st.selectbox("Case Category:", ["Civil Matter", "Criminal Matter", "Property Dispute", "Family Law", "Corporate/Tax", "Other"])
+    case_type = st.selectbox("Case Category:", ["Civil Matter", "Criminal Matter", "Property Dispute", "Family Law", "Corporate Law"])
+    details = st.text_area("Case Summary (Brief Tafseel):")
+    details = st.text_area("Case Summary (Brief Tafseel):")
     details = st.text_area("Case Summary (Brief Tafseel):")
     
     if st.button("Submit Appointment Request"):
