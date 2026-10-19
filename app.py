@@ -12,7 +12,7 @@ os.environ["GROQ_API_KEY"] = "gsk_TrJmaXb8fFPlhPL8afnoWGdyb3FYtZM51joSo1KkbfblaT
 
 # Page Configuration - Search Engine Optimization for Rawalpindi & Islamabad
 st.set_page_config(
-    page_title="Advocate Rafaqat Abbas | Best High Court Lawyer Rawalpindi & Islamabad", 
+    page_title="Advocate Rafaqat Abbas | High Court Lawyer Rawalpindi & Islamabad", 
     page_icon="⚖️", 
     layout="centered"
 )
@@ -40,7 +40,7 @@ st.markdown("""
             border: none;
         }
         .main-title { font-size: 24px !important; }
-        .sub-title { font-size: 11px !important; }
+        .sub-title { font-size: 12px !important; }
         .location-badge { font-size: 11px !important; }
     }
     .main-title {
@@ -88,10 +88,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Main Premium Header with Location Highlighting
+# Main Premium Header with Corrected Location Highlighting
 st.markdown("<h1 class='main-title'>⚖️ LAW LEGACY</h1>", unsafe_allow_html=True)
 st.markdown("<p class='sub-title'>Chamber of Advocate Rafaqat Abbas | High Court Legal Services</p>", unsafe_allow_html=True)
-st.markdown("<div class='location-badge'>📍 Serving Clients in Rawalpindi, Islamabad & Islamabad High Court</div>", unsafe_allow_html=True)
+# FIXED: Strictly Rawalpindi, Islamabad and Rawalpindi Bar Association
+st.markdown("<div class='location-badge'>📍 Serving Clients in Rawalpindi & Islamabad | Rawalpindi Bar Association</div>", unsafe_allow_html=True)
 
 # ========================================================
 # ADVANCED DUAL-PDF LOADING & PROCESSING SYSTEM (PPC + CPC)
@@ -152,7 +153,8 @@ with tab1:
             try:
                 context_data = get_relevant_context(user_query, chunks)
                 client = Groq()
-                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Rawalpindi & Islamabad. Answer in clear Roman Urdu or simple Urdu based on the provided law book context. At the end, you MUST always add this exact line: 'Kanooni mashware ya specialized legal help ke lie aap hamare Rawalpindi/Islamabad chamber par tashreef la sakte hain ya is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
+                # FIXED Prompt to match targeted Pindi-Islamabad and Pindi Bar jurisdictions
+                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) practicing exclusively in Rawalpindi, Islamabad, and the Rawalpindi Bar Association courts. Answer in clear Roman Urdu or simple Urdu based on the provided law book context. At the end, you MUST always add this exact line: 'Kanooni mashware ya specialized legal help ke lie aap hamare Rawalpindi/Islamabad chamber par tashreef la sakte hain ya is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
                 
                 response = client.chat.completions.create(
                     messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_query}],
@@ -162,7 +164,7 @@ with tab1:
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 16px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
                 
                 raw_choices = response.choices
-                first_choice = raw_choices[0]
+                first_choice = raw_choices
                 extracted_msg = first_choice.message
                 final_answer = extracted_msg.content
                 
@@ -193,7 +195,7 @@ with tab2:
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
             target_phone = "923315605159"
-            clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas (Rawalpindi/Islamabad).\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
+            clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
             encoded_msg = urllib.parse.quote(clean_text)
             whatsapp_url = f"https://wa.me{target_phone}?text={encoded_msg}"
             
