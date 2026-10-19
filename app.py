@@ -30,17 +30,18 @@ st.markdown("""
 
 # Office Identity Brand Headers
 st.markdown("<h1 style='text-align: center; color: #1E3A8A; margin-bottom: 0px;'>LAW LEGACY</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #64748B; font-size: 16px; font-weight: 500; margin-top: 5px; letter-spacing: 1px;'>HIGH COURT LEGAL CONSULTANT & AI ASSISTANCE PORTAL</p>", unsafe_allow_html=True)
-st.markdown("<div style='border-top: 3px double #D4AF37; width: 60%; margin: 15px auto 30px auto;'></div>", unsafe_allow_html=Tru
+st.markdown("<p style='text-align: center; color: #64748B; font-size: 16px; font-weight: 500; margin-top: 5px; letter-spacing: 1px;'>Advocate Rafaqat Abbas | High Court Legal Services</p>", unsafe_allow_html=True)
+st.markdown("<div style='border-top: 3px double #D4AF37; width: 60%; margin: 15px auto 30px auto;'></div>", unsafe_allow_html=True)
+
 # TAB 1: Core AI Chatbot
 with tab1:
     st.subheader("Ask about Pakistan Penal Code (PPC)")
     user_query = st.text_input("Apna legal masla ya kanoon yahan darj karein:")
-    
+
     if user_query:
         with st.spinner("Analyzing PPC Legal Database..."):
             try:
-client = Groq()
+                client = Groq()
         system_prompt = "You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer the user query based on Pakistan Penal Code (PPC)."
         
         response = client.chat.completions.create(
