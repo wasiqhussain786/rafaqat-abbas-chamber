@@ -1,2 +1,6 @@
-streamlit
 groq
+langchain
+langchain-community
+langchain-text-splitters
+pypdf
+streamlit
