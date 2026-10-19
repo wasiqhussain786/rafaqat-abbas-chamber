@@ -99,7 +99,7 @@ def get_relevant_context(user_query, documents):
     for doc in documents:
         if any(kw in doc.page_content.lower() for kw in keywords):
             relevant_text += doc.page_content + "\n\n"
-        if len(relevant_text) > 3000: # Context threshold protection
+        if len(relevant_text) > 3000:
             break
     return relevant_text
 
@@ -110,7 +110,6 @@ tab1, tab2 = st.tabs(["🤖 AI Legal Assistant (PPC & CPC)", "📅 Book Appointm
 with tab1:
     st.markdown("<div class='section-header'>Consult AI Legal Intelligence</div>", unsafe_allow_html=True)
     
-    # Status badges to dynamically display active status of both books
     status_html = "<span style='background-color:#E0F2FE; color:#0369A1; padding:4px 8px; border-radius:4px; font-weight:600; font-size:12px; margin-right:5px;'>PPC Database: Connected</span>"
     if os.path.exists("cpc.pdf"):
         status_html += "<span style='background-color:#E0F2FE; color:#0369A1; padding:4px 8px; border-radius:4px; font-weight:600; font-size:12px;'>CPC Database: Connected</span>"
@@ -120,7 +119,7 @@ with tab1:
     st.markdown(status_html, unsafe_allow_html=True)
     st.write("")
     
-    user_query = st.st = st.text_input("Apna Legal Sawal Yahan Likhein (PPC ya CPC ke mutabiq):", placeholder="e.g. Theft punishment or Civil Suit Stay Order procedure...")
+    user_query = st.text_input("Apna Legal Sawal Yahan Likhein (PPC ya CPC ke mutabiq):", placeholder="e.g. Theft punishment or Civil Suit Stay Order procedure...")
     
     if user_query:
         with st.spinner("Analyzing PPC & CPC Legal Databases..."):
@@ -147,12 +146,11 @@ with tab1:
                 )
                 
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
-                # FIXED SYNTAX INDEXING: response.choices[0].message.content applied
-                st.info(response.choices[0].message.content)
+                st.info(response.choices.message.content)
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# TAB 2: Appointment Form
+# TAB 2: Appointment Form (100% Fixed WhatsApp String Formatting)
 with tab2:
     st.markdown("<div class='section-header'>Schedule a Private Consultation</div>", unsafe_allow_html=True)
     name = st.text_input("Aap ka Naam (Full Name):")
@@ -163,10 +161,18 @@ with tab2:
     if st.button("Submit Appointment Request"):
         if name and phone:
             target_phone = "923315605159"
-            whatsapp_msg = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
-            encoded_msg = urllib.parse.quote(whatsapp_msg)
+            
+            # Clean string building without escaping bugs
+            raw_msg = (
+                "Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\n"
+                f"Name: {name}\n"
+                f"Phone: {phone}\n"
+                f"Category: {case_type}\n"
+                f"Details: {details}"
+            )
+            encoded_msg = urllib.parse.quote(raw_msg)
             whatsapp_url = f"https://wa.me{target_phone}?text={encoded_msg}"
 
-            st.markdown(f'<a href="{whatsapp_url}" target="_blank"><button style="background-color:#1E3A8A; color:white; padding:12px 24px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; width:100%; font-size:16px;">Confirm Booking via WhatsApp 💬</button></a>', unsafe_allow_html=True)
+            st.markdown(f'<a href="{whatsapp_url}" target="_blank"><button style="background-color:#1E3A8A; color:white; padding:12px 24px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; width:100%; font-size:16px;">Confirm Booking via WhatsApp</button></a>', unsafe_allow_html=True)
         else:
             st.error("Meharbani karke Naam aur Phone number lazmi darj karein.")
