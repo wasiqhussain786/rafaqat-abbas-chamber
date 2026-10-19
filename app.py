@@ -1,7 +1,8 @@
 import streamlit as st
 from groq import Groq
 import os
-import urllib.parse
+import pandas as pd
+from datetime import datetime
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -42,8 +43,6 @@ st.markdown("""
         font-weight: 800;
         color: #1E3A8A;
         text-align: center;
-        letter-spacing: 1px;
-        margin-bottom: 0px;
         text-transform: uppercase;
     }
     .sub-title {
@@ -111,7 +110,7 @@ def get_relevant_context(user_query, documents):
     return relevant_text
 
 # Define Tabs
-tab1, tab2 = st.tabs(["🤖 AI Assistant (PPC/CPC)", "📅 Book Appointment"])
+tab1, tab2, tab3 = st.tabs(["🤖 AI Assistant (PPC/CPC)", "📅 Book Appointment", "🔒 Admin Dashboard"])
 
 # TAB 1: AI Legal Assistant
 with tab1:
@@ -127,36 +126,22 @@ with tab1:
     run_button = st.button("Run Query ➡️", use_container_width=True)
     
     if user_query and run_button:
-        with st.spinner("Analyzing PPC & CPC Legal Databases..."):
+        with st.spinner("Analyzing Legal Databases..."):
             try:
                 context_data = get_relevant_context(user_query, chunks)
                 client = Groq()
-                
-                system_prompt = f"""
-                You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. 
-                Answer the user query based on the provided Pakistan Penal Code (PPC) and Civil Procedure Code (CPC) context files.
-                Always answer in clear Roman Urdu or simple Urdu so common clients can understand.
-                At the end, you MUST always add this exact line: 'Kanooni mashware ya mazeed rabte ke lie is number per rabta krein: 03315605159'.
-                
-                OFFICIAL LAW BOOKS CONTEXT DATA:
-                {context_data}
-                """
-                
+                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer in clear Roman Urdu. At the end, add: 'Kanooni mashware ya mazeed rabte ke lie is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
                 response = client.chat.completions.create(
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_query}
-                    ],
-                    model="openai/gpt-oss-20b",
+                    messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_query}],
+                    model="openai/gpt-oss-20b"
                 )
-                
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 16px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
-                # ABSOLUTE FIXED SYNTAX LIST INDEX SELECTOR HERE
-                st.info(response.choices[0].message.content)
+                st.info(response.choices.message.content)
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# TAB 2: Appointment Form (Clean Crash-Free Standard Link)
+# TAB 2: Appointment Form (100% Fixed Native Plain URL)
+db_file = "appointments.csv"
 with tab2:
     st.markdown("<div class='section-header'>Schedule a Private Consultation</div>", unsafe_allow_html=True)
     name = st.text_input("Aap ka Naam (Full Name):")
@@ -166,14 +151,38 @@ with tab2:
 
     if st.button("Submit Appointment Request", use_container_width=True):
         if name and phone:
-            st.success("Details Saved Successfully!")
+            # Excel Storage (WhatsApp se pehle backend par automatic save ho jayega)
+            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            new_data = pd.DataFrame([[current_time, name, phone, case_type, details]], columns=["Time", "Name", "Phone", "Category", "Summary"])
             
+            if not os.path.exists(db_file):
+                new_data.to_csv(db_file, index=False)
+            else:
+                new_data.to_csv(db_file, mode='a', header=False, index=False)
+                
+            st.success("🎉 Details Permanent Save ho gayi hain!")
+            
+            # Absolute Fixed WhatsApp Plain Routing Integration (No quotation bugs)
             target_phone = "923315605159"
-            raw_msg = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
-            encoded_msg = urllib.parse.quote(raw_msg)
-            whatsapp_url = f"https://wa.me{target_phone}?text={encoded_msg}"
-
-            # Standard native link connection structure
+            clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
+            
+            # Directly formatting spaces into web-safe format natively
+            whatsapp_url = f"https://wa.me{target_phone}?text={clean_text.replace(' ', '%20')}"
+            
+            # Streamlit native link component button to bypass target link crash errors
             st.link_button("Open WhatsApp to Confirm Booking 💬", whatsapp_url, use_container_width=True)
         else:
             st.error("Meharbani karke Naam aur Phone number lazmi darj karein.")
+
+# TAB 3: Admin Panel
+with tab3:
+    st.markdown("<div class='section-header'>Advocate Secret Control Dashboard</div>", unsafe_allow_html=True)
+    password = st.text_input("Admin Secret Key Darj Karein:", type="password")
+    if password == "rafaqat786":
+        if os.path.exists(db_file):
+            df = pd.read_csv(db_file)
+            st.dataframe(df, use_container_width=True)
+            csv_data = df.to_csv(index=False).encode('utf-8')
+            st.download_button("📥 Excel Sheet Download Karein", csv_data, "appointments.csv", "text/csv", use_container_width=True)
+        else:
+            st.info("Abhi tak website par koi appointment submit nahi hui.")
