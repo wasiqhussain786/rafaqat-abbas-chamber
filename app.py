@@ -72,16 +72,13 @@ with tab2:
             st.success("Details Saved! Click the button below to complete registration.")
             
             # Message router payload
-            whatsapp_msg = f"Salam Advocate Rafaqat Abbas, I want to book an appointment.\n\n*Name:* {name}\n*Phone:* {phone}\n*Category:* {case_type}\n*Summary:* {details}"
-            encoded_msg = urllib.parse.quote(whatsapp_msg)
-            whatsapp_url = f"https://wa.me{encoded_msg}"
-            
-            st.markdown(f'''
-                <a href="{whatsapp_url}" target="_blank">
-                    <button style="background-color: #25D366; color: white; padding: 14px 28px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; font-size: 16px;">
-                        Click Here to Send Details to Advocate Rafaqat via WhatsApp
-                    </button>
-                </a>
+        target_phone = "923315605159"
+        whatsapp_msg = f"Salam Advocate Rafaqat Abbas, I want to book an appointment.\n\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
+        encoded_msg = urllib.parse.quote(whatsapp_msg)
+        whatsapp_url = f"https://wa.me/{target_phone}?text={encoded_msg}"
+        
+        # Link button redirect
+        st.markdown(f'<a href="{whatsapp_url}" target="_blank"><button style="background-color:#25D366; color:white; padding:10px 20px; border:none; border-radius:5px; font-size:16px; cursor:pointer;">Click Here to Send Details to Advocate Rafaqat via WhatsApp</button></a>', unsafe_allow_html=True)
             ''', unsafe_allow_html=True)
         else:
             st.error("Meharbani karke Naam aur Phone number lazmi darj karein.")
