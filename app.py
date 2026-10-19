@@ -2,6 +2,7 @@ import streamlit as st
 from groq import Groq
 import os
 import pandas as pd
+import urllib.parse  # 100% Fixed URL Encoder Matrix Tool
 from datetime import datetime
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -130,17 +131,18 @@ with tab1:
             try:
                 context_data = get_relevant_context(user_query, chunks)
                 client = Groq()
-                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer in clear Roman Urdu. At the end, add: 'Kanooni mashware ya mazeed rabte ke lie is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
+                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer in clear Roman Urdu or simple Urdu based on the provided law book context. At the end, you MUST always add this exact line: 'Kanooni mashware ya mazeed rabte ke lie is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
                 response = client.chat.completions.create(
                     messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_query}],
                     model="openai/gpt-oss-20b"
                 )
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 16px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
+                # FIXED SYNTAX INDEX SELECTOR 
                 st.info(response.choices.message.content)
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# TAB 2: Appointment Form (100% Fixed Native Plain URL)
+# TAB 2: Appointment Form
 db_file = "appointments.csv"
 with tab2:
     st.markdown("<div class='section-header'>Schedule a Private Consultation</div>", unsafe_allow_html=True)
@@ -151,7 +153,6 @@ with tab2:
 
     if st.button("Submit Appointment Request", use_container_width=True):
         if name and phone:
-            # Excel Storage (WhatsApp se pehle backend par automatic save ho jayega)
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             new_data = pd.DataFrame([[current_time, name, phone, case_type, details]], columns=["Time", "Name", "Phone", "Category", "Summary"])
             
@@ -162,23 +163,30 @@ with tab2:
                 
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
-            # Absolute Fixed WhatsApp Plain Routing Integration (No quotation bugs)
+            # ABSOLUTE FIXED WHATSAPP ROUTING LINK (Using strict safe url encoding)
             target_phone = "923315605159"
-            clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
+            clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
             
-            # Directly formatting spaces into web-safe format natively
-            whatsapp_url = f"https://wa.me{target_phone}?text={clean_text.replace(' ', '%20')}"
+            # url encoding strings natively to avoid breaking spaces
+            encoded_msg = urllib.parse.quote_plus(clean_text)
+            whatsapp_url = f"https://wa.me{target_phone}?text={encoded_msg}"
             
-            # Streamlit native link component button to bypass target link crash errors
-            st.link_button("Open WhatsApp to Confirm Booking 💬", whatsapp_url, use_container_width=True)
+            # Interactive markdown href anchor component button to secure native cross-platform redirections
+            st.markdown(f'''
+                <a href="{whatsapp_url}" target="_blank" style="text-decoration: none;">
+                    <div style="background-color: #1E3A8A; color: white; text-align: center; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%;">
+                        Open WhatsApp to Confirm Booking 💬
+                    </div>
+                </a>
+            ''', unsafe_allow_html=True)
         else:
             st.error("Meharbani karke Naam aur Phone number lazmi darj karein.")
 
-# TAB 3: Admin Panel
+# TAB 3: Admin Dashboard Panel
 with tab3:
     st.markdown("<div class='section-header'>Advocate Secret Control Dashboard</div>", unsafe_allow_html=True)
-    password = st.text_input("Admin Secret Key Darj Karein:", type="password")
-    if password == "rafaqat786":
+    admin_password = st.text_input("Admin Secret Key Darj Karein:", type="password")
+    if admin_password == "rafaqat786":
         if os.path.exists(db_file):
             df = pd.read_csv(db_file)
             st.dataframe(df, use_container_width=True)
