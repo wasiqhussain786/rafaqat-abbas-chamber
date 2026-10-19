@@ -5,9 +5,7 @@ from groq import Groq
 
 # 1. API Key Binding
 os.environ["GROQ_API_KEY"] = "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"
-
 st.set_page_config(page_title="Law Legacy - AI Legal Portal", page_icon="⚖️", layout="centered")
-
 
 # 2. Executive Corporate Theme Design
 st.markdown("""
@@ -33,10 +31,7 @@ st.markdown("""
 # Office Identity Brand Headers
 st.markdown("<h1 style='text-align: center; color: #1E3A8A; margin-bottom: 0px;'>LAW LEGACY</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; color: #64748B; font-size: 16px; font-weight: 500; margin-top: 5px; letter-spacing: 1px;'>HIGH COURT LEGAL CONSULTANT & AI ASSISTANCE PORTAL</p>", unsafe_allow_html=True)
-st.markdown("<div style='border-top: 3px double #D4AF37; width: 60%; margin: 15px auto 30px auto;'></div>", unsafe_allow_html=True)
-
-tab1, tab2 = st.tabs(["AI Legal Assistant (PPC Bot)", "Schedule Consultation"])
-
+st.markdown("<div style='border-top: 3px double #D4AF37; width: 60%; margin: 15px auto 30px auto;'></div>", unsafe_allow_html=Tru
 # TAB 1: Core AI Chatbot
 with tab1:
     st.subheader("Ask about Pakistan Penal Code (PPC)")
@@ -45,20 +40,20 @@ with tab1:
     if user_query:
         with st.spinner("Analyzing PPC Legal Database..."):
             try:
-                client = Groq()
-                system_prompt = "You are an expert AI Legal Assistant for Advocate Rafaqat Abbas in Pakistan. Answer the user's query regarding PPC in clear Roman Urdu. At the end, you MUST always add this exact line: 'Kanooni mashware ya mazeed rabte ke lie is number per rabta krein: 03315605159'."
-                
-                response = client.chat.completions.create(
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_query}
-                    ],
-                    model="openai/gpt-oss-20b",
-                )
-                st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Response:</b>", unsafe_allow_html=True)
-                st.info(response.choices[0].message.content)
-            except Exception as e:
-                st.error(f"Error: {e}")
+client = Groq()
+        system_prompt = "You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer the user query based on Pakistan Penal Code (PPC)."
+        
+        response = client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_query}
+            ],
+            model="llama-3.3-70b-versatile",
+        )
+        st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Response:</b>", unsafe_allow_html=True)
+        st.info(response.choices[0].message.content)
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 # TAB 2: Appointment Form Connecting to WhatsApp
 with tab2:
@@ -74,7 +69,7 @@ with tab2:
             
             # Message router payload
         target_phone = "923315605159"
-        whatsapp_msg = f"Salam Advocate Rafaqat Abbas, I want to book an appointment.\n\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
+        whatsapp_msg = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\n\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
         encoded_msg = urllib.parse.quote(whatsapp_msg)
         whatsapp_url = f"https://wa.me/{target_phone}?text={encoded_msg}"
         
