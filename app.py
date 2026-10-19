@@ -2,8 +2,10 @@ import streamlit as st
 from groq import Groq
 import os
 import urllib.parse
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-# 1. API Key Binding (Groq se connect karne ke liye zaroori hai)
+# 1. API Key Binding (Groq Connection)
 os.environ["GROQ_API_KEY"] = "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"
 
 # Page Configuration
@@ -49,31 +51,92 @@ st.markdown("""
 st.markdown("<h1 class='main-title'>⚖️ LAW LEGACY</h1>", unsafe_allow_html=True)
 st.markdown("<p class='sub-title'>Advocate Rafaqat Abbas | High Court Legal Services</p>", unsafe_allow_html=True)
 
-# Define Tabs
-tab1, tab2 = st.tabs(["🤖 AI Legal Assistant (PPC)", "📅 Book Appointment"])
+# ========================================================
+# ADVANCED DUAL-PDF LOADING & PROCESSING SYSTEM (PPC + CPC)
+# ========================================================
+@st.cache_resource
+def load_legal_databases():
+    all_chunks = []
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1200, chunk_overlap=250)
+    
+    # Load PPC Book
+    if os.path.exists("ppc.pdf"):
+        try:
+            ppc_pages = PyPDFLoader("ppc.pdf").load_and_split()
+            all_chunks.extend(text_splitter.split_documents(ppc_pages))
+        except:
+            pass
+        
+    # Load CPC Book
+    if os.path.exists("cpc.pdf"):
+        try:
+            cpc_pages = PyPDFLoader("cpc.pdf").load_and_split()
+            all_chunks.extend(text_splitter.split_documents(cpc_pages))
+        except:
+            pass
+        
+    return all_chunks
 
-# TAB 1: AI Legal Assistant
+chunks = load_legal_databases()
+
+# Intelligent Legal Context Keyword Matcher
+def get_relevant_context(user_query, documents):
+    if not documents:
+        return ""
+    keywords = user_query.lower().split()
+    relevant_text = ""
+    for doc in documents:
+        if any(kw in doc.page_content.lower() for kw in keywords):
+            relevant_text += doc.page_content + "\n\n"
+        if len(relevant_text) > 3000: # Context threshold protection
+            break
+    return relevant_text
+
+# Define Tabs
+tab1, tab2 = st.tabs(["🤖 AI Legal Assistant (PPC & CPC)", "📅 Book Appointment"])
+
+# TAB 1: AI Legal Assistant (Dual Powered Brain)
 with tab1:
     st.markdown("<div class='section-header'>Consult AI Legal Intelligence</div>", unsafe_allow_html=True)
-    user_query = st.text_input("Apna Legal Sawal Yahan Likhein:", placeholder="e.g. Theft punishment under PPC...")
+    
+    # Status badges to dynamically display active status of both books
+    status_html = "<span style='background-color:#E0F2FE; color:#0369A1; padding:4px 8px; border-radius:4px; font-weight:600; font-size:12px; margin-right:5px;'>PPC Database: Connected</span>"
+    if os.path.exists("cpc.pdf"):
+        status_html += "<span style='background-color:#E0F2FE; color:#0369A1; padding:4px 8px; border-radius:4px; font-weight:600; font-size:12px;'>CPC Database: Connected</span>"
+    else:
+        status_html += "<span style='background-color:#F3F4F6; color:#4B5563; padding:4px 8px; border-radius:4px; font-weight:600; font-size:12px;'>CPC: File Missing</span>"
+        
+    st.markdown(status_html, unsafe_allow_html=True)
+    st.write("")
+    
+    user_query = st.text_input("Apna Legal Sawal Yahan Likhein (PPC ya CPC ke mutabiq):", placeholder="e.g. Theft punishment or Civil Suit Stay Order procedure...")
+    
     if user_query:
-        with st.spinner("Analyzing PPC Legal Database..."):
+        with st.spinner("Analyzing PPC & CPC Legal Databases..."):
             try:
+                context_data = get_relevant_context(user_query, chunks)
                 client = Groq()
-                # 2. System prompt updated to enforce Roman Urdu and your phone number entry
-                system_prompt = "You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer the user query based on Pakistan Penal Code (PPC) in clear Roman Urdu. At the end, you MUST always add this exact line: 'Kanooni mashware ya mazeed rabte ke lie is number per rabta krein: 03315605159'."
+                
+                system_prompt = f"""
+                You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. 
+                Answer the user query based on the provided Pakistan Penal Code (PPC) and Civil Procedure Code (CPC) context files.
+                Always answer in clear Roman Urdu or simple Urdu so common clients can understand.
+                At the end, you MUST always add this exact line: 'Kanooni mashware ya mazeed rabte ke lie is number per rabta krein: 03315605159'.
+                
+                OFFICIAL LAW BOOKS CONTEXT DATA:
+                {context_data}
+                """
                 
                 response = client.chat.completions.create(
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_query}
                     ],
-                    model="openai/gpt-oss-20b",  # 3. Model fixed to stable active production version
+                    model="openai/gpt-oss-20b",
                 )
                 
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
-                # 4. Correct response syntax choice extraction applied
-                st.info(response.choices[0].message.content)
+                st.info(response.choices.message.content)
             except Exception as e:
                 st.error(f"Error: {e}")
 
@@ -90,7 +153,7 @@ with tab2:
             target_phone = "923315605159"
             whatsapp_msg = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas.\nName: {name}\nPhone: {phone}\nCategory: {case_type}\nDetails: {details}"
             encoded_msg = urllib.parse.quote(whatsapp_msg)
-            whatsapp_url = f"https://wa.me/{target_phone}?text={encoded_msg}"
+            whatsapp_url = f"https://wa.me{target_phone}?text={encoded_msg}"
 
             st.markdown(f'<a href="{whatsapp_url}" target="_blank"><button style="background-color:#1E3A8A; color:white; padding:12px 24px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; width:100%; font-size:16px;">Confirm Booking via WhatsApp 💬</button></a>', unsafe_allow_html=True)
         else:
