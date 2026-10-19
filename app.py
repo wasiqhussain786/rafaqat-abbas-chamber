@@ -58,29 +58,16 @@ with tab1:
                 client = Groq()
                 system_prompt = "You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) in Pakistan. Answer the user query based on Pakistan Penal Code (PPC)."
                 
-                # List of active models in order of priority
-                models_to_try = ["llama-3.3-70b-versatile", "llama3-70b-8192", "llama3-8b-8192"]
-                response = None
+                response = client.chat.completions.create(
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_query}
+                    ],
+                    model="llama3-8b-8192",
+                )
                 
-                for model_name in models_to_try:
-                    try:
-                        response = client.chat.completions.create(
-                            messages=[
-                                {"role": "system", "content": system_prompt},
-                                {"role": "user", "content": user_query}
-                            ],
-                            model=model_name,
-                        )
-                        if response:
-                            break
-                    except Exception:
-                        continue
-                
-                if response:
-                    st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
-                    st.info(response.choices[0].message.content)
-                else:
-                    st.error("API Service filhal busy hai, meharbani karke thodi der baad dobara try karein.")
+                st.markdown("<br><b style='color: #1E3A8A; font-size: 18px;'>Official Legal Opinion:</b>", unsafe_allow_html=True)
+                st.info(response.choices[0].message.content)
             except Exception as e:
                 st.error(f"Error: {e}")
 
