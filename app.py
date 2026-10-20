@@ -1,4 +1,4 @@
-import streamlit as st
+import streamlit st
 from groq import Groq
 import os
 import pandas as pd
@@ -141,13 +141,13 @@ with tab2:
                 
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
-            # FIXED CLEAN WHATSAPP LINK PROTOCOL (No Symbol Bugs)
+            # FIXED CLEAN WHATSAPP LINK PROTOCOL (No Symbol Bugs & Explicit Slash)
             t_phone = "923315605159"
             clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
             encoded_msg = urllib.parse.quote(clean_text)
             whatsapp_url = f"https://wa.me{t_phone}?text={encoded_msg}"
             
-            st.link_button("📲 Click Here to Open WhatsApp Chat", whatsapp_url, use_container_width=True)
+            st.link_button("📲 Click Here to Send Details via WhatsApp", whatsapp_url, use_container_width=True)
         else: 
             st.error("Naam aur Phone number lazmi likhein.")
 
