@@ -1,4 +1,4 @@
-import streamlit st
+import streamlit as st
 from groq import Groq
 import os
 import pandas as pd
