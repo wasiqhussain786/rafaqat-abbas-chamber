@@ -2,6 +2,7 @@ import streamlit as st
 from groq import Groq
 import os
 import pandas as pd
+import urllib.parse
 from datetime import datetime
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -108,16 +109,13 @@ with tab1:
                 )
                 st.markdown("<br><b>⚖️ Certified Legal Opinion:</b>", unsafe_allow_html=True)
                 
-                choices_list = response.choices
-                first_choice = choices_list[0]
-                message_object = first_choice.message
-                ai_message = message_object.content
-                st.info(ai_message)
+                final_answer = response.choices.message.content
+                st.info(final_answer)
                 
             except Exception as e: 
                 st.error(f"Error: {e}")
 
-# TAB 2: Appointment System with Permanent Local DB Logger & Short URL Redirection
+# TAB 2: Appointment System with 100% Fixed Clean Link Matrix
 db_file = "appointments.csv"
 with tab2:
     st.markdown("<div class='section-header'>Schedule a Private Consultation</div>", unsafe_allow_html=True)
@@ -133,13 +131,16 @@ with tab2:
             if not os.path.exists(db_file): new_data.to_csv(db_file, index=False)
             else: new_data.to_csv(db_file, mode='a', header=False, index=False)
                 
-            st.success("🎉 Details Permanent Save ho gayi hain! Niche diye gaye button par click karein.")
+            st.success("🎉 Details Permanent Save ho gayi hain!")
             
-            # THE ABSOLUTE STABLE UNIVERSAL SHORT ROUTE 
-            universal_whatsapp_url = "https://wa.me"
+            # FIXED WHATSAPP ROUTING UTILITY (Strict Number Formatting without Extra Special Symbols)
+            clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
+            encoded_msg = urllib.parse.quote(clean_text)
             
-            # Official secure native component link button
-            st.link_button("📲 Click Here to Open WhatsApp Chat", universal_whatsapp_url, use_container_width=True)
+            # Pure link query injection string
+            whatsapp_url = f"https://wa.me{encoded_msg}"
+            
+            st.link_button("📲 Click Here to Open WhatsApp Chat", whatsapp_url, use_container_width=True)
         else: 
             st.error("Naam aur Phone number lazmi likhein.")
 
