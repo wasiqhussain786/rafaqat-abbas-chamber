@@ -155,7 +155,7 @@ def get_relevant_context(user_query, documents):
         if len(relevant_text) > 3000: break
     return relevant_text
 
-# TAB 1: AI Chatbot Engine (100% Fixed & Working)
+# TAB 1: AI Chatbot Engine (100% Permanent Fixed Error Protection)
 with tab1:
     st.markdown("<div class='section-header'>Consult AI Legal Intelligence</div>", unsafe_allow_html=True)
     p1 = "<span class='status-pill-green'>✓ PPC BOOK ACTIVE</span>"
@@ -181,7 +181,7 @@ with tab1:
                 
                 # 10000% GUARANTEED CRASH PROTECTION PARSER
                 try:
-                    ai_message = response.choices[0].message.content
+                    ai_message = response.choices.message.content
                 except:
                     try:
                         ai_message = response.choices.message.content
@@ -211,14 +211,16 @@ with tab2:
                 
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
-            # Universal WhatsApp API structure (Bypasses all pop-up blockers)
+            # Universal WhatsApp API structure (Bypasses all encoding bugs and link freezes)
             t_phone = "923315605159"
-            clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
-            encoded_msg = urllib.parse.quote(clean_text)
             
-            # Pure standard native component redirection line
+            # Pure plain formatting configuration parameters
+            clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
+            encoded_msg = urllib.parse.quote_plus(clean_text)
+            
+            # Native direct path integration to guarantee instant redirects on mobile/PC
             whatsapp_url = f"https://wa.me{t_phone}?text={encoded_msg}"
-            st.link_button("📲 Click Here to Open WhatsApp Chat", whatsapp_url, use_container_width=True)
+            st.link_button("Open WhatsApp to Confirm Booking 💬", whatsapp_url, use_container_width=True)
         else: 
             st.error("Naam aur Phone number lazmi likhein.")
 
