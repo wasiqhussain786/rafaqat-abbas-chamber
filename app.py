@@ -84,7 +84,7 @@ def get_relevant_context(user_query, documents):
         if len(relevant_text) > 3000: break
     return relevant_text
 
-# TAB 1: AI Chatbot Engine (100% Fixed and Working)
+# TAB 1: AI Chatbot Engine
 with tab1:
     st.markdown("<div class='section-header'>Consult AI Legal Intelligence</div>", unsafe_allow_html=True)
     p1 = "<span class='status-pill-green'>✓ PPC BOOK ACTIVE</span>"
@@ -108,7 +108,6 @@ with tab1:
                 )
                 st.markdown("<br><b>⚖️ Certified Legal Opinion:</b>", unsafe_allow_html=True)
                 
-                # ABSOLUTE METHOD FOR NO ERROR
                 choices_list = response.choices
                 first_choice = choices_list[0]
                 message_object = first_choice.message
@@ -118,7 +117,7 @@ with tab1:
             except Exception as e: 
                 st.error(f"Error: {e}")
 
-# TAB 2: Appointment System with 100% Fixed Plain Message Routing
+# TAB 2: Appointment System with Permanent Local DB Logger & Short URL Redirection
 db_file = "appointments.csv"
 with tab2:
     st.markdown("<div class='section-header'>Schedule a Private Consultation</div>", unsafe_allow_html=True)
@@ -134,18 +133,13 @@ with tab2:
             if not os.path.exists(db_file): new_data.to_csv(db_file, index=False)
             else: new_data.to_csv(db_file, mode='a', header=False, index=False)
                 
-            st.success("🎉 Details Permanent Save ho gayi hain!")
+            st.success("🎉 Details Permanent Save ho gayi hain! Niche diye gaye button par click karein.")
             
-            # 100% WEB-SAFE PLAIN ENCODING SYSTEM
-            t_phone = "923315605159"
-            raw_msg = f"Salam Law Legacy, I want to book an appointment. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
+            # THE ABSOLUTE STABLE UNIVERSAL SHORT ROUTE 
+            universal_whatsapp_url = "https://wa.me"
             
-            # Simple direct hex replacement to stop cross-platform crashes
-            safe_msg = raw_msg.replace(" ", "%20").replace("\n", "%0A")
-            w_url = f"https://whatsapp.com{t_phone}&text={safe_msg}"
-            
-            # Standard stable Streamlit button redirect utility
-            st.link_button("📲 Click Here to Send Details via WhatsApp", w_url, use_container_width=True)
+            # Official secure native component link button
+            st.link_button("📲 Click Here to Open WhatsApp Chat", universal_whatsapp_url, use_container_width=True)
         else: 
             st.error("Naam aur Phone number lazmi likhein.")
 
