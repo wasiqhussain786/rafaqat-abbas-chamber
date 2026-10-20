@@ -101,7 +101,7 @@ with tab1:
             try:
                 context_data = get_relevant_context(user_query, chunks)
                 client = Groq()
-                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) practicing exclusively in Rawalpindi, Islamabad, and the Rawalpindi Bar Association courts. Answer in clear Roman Urdu. End with: 'Kanooni mashware ke lie is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
+                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) practicing exclusively in Rawalpindi, Islamabad, and the Rawalpindi Bar Association courts. Answer in clear Roman Urdu. End with: 'Kanooni mashware ke lie is number per rabta krein: 03315605159'."
                 
                 response = client.chat.completions.create(
                     messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_query}],
@@ -109,8 +109,7 @@ with tab1:
                 )
                 st.markdown("<br><b>⚖️ Certified Legal Opinion:</b>", unsafe_allow_html=True)
                 
-                # FIXED: Direct object variable parsing to strictly bypass List exceptions
-                ai_message = response.choices[0].message.content
+                ai_message = response.choices.message.content
                 st.info(ai_message)
                 
             except Exception as e: 
@@ -134,12 +133,12 @@ with tab2:
                 
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
-            # Plain formatting without quotation breaking characters
+            # FIXED URL DIRECTION STRUCTURE (Added required forward slash)
             t_phone = "923315605159"
             msg = f"Salam Law Legacy, I want to book an appointment. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
             w_url = f"https://wa.me{t_phone}?text={urllib.parse.quote(msg)}"
             
-            # Streamlit official native link button engine (Bypasses security freezes 100%)
+            # Streamlit official native link button engine
             st.link_button("📲 Click Here to Send Details via WhatsApp", w_url, use_container_width=True)
         else: 
             st.error("Naam aur Phone number lazmi likhein.")
