@@ -10,11 +10,19 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 # 1. Groq API Key Connection Security
 os.environ["GROQ_API_KEY"] = "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"
 
+# Page Configuration - Advanced Google SEO Meta Keywords for Rawalpindi & Islamabad
 st.set_page_config(
-    page_title="Law Legacy | Advocate Rafaqat Abbas", 
+    page_title="Advocate Rafaqat Abbas | High Court Lawyer Rawalpindi & Islamabad", 
     page_icon="⚖️", 
     layout="centered"
 )
+
+# Hidden Search Engine Optimization Tags for Google Bots
+st.markdown("""
+    <!-- Google Search Engine Meta Keywords -->
+    <meta name="description" content="Chamber of Advocate Rafaqat Abbas. Best High Court Lawyer and Legal Consultant in Rawalpindi, Islamabad, and Rawalpindi Bar Association. Specializing in PPC and CPC cases.">
+    <meta name="keywords" content="Advocate Rafaqat Abbas, Rafaqat Abbas Lawyer, Best Lawyer in Rawalpindi, High Court Advocate Rawalpindi, Islamabad Lawyer, Rawalpindi Bar Association, Legal Assistant Pakistan">
+""", unsafe_allow_html=True)
 
 # Executive Luxury Premium Theme Design (Navy & Gold Accent)
 st.markdown("""
@@ -101,7 +109,7 @@ with tab1:
             try:
                 context_data = get_relevant_context(user_query, chunks)
                 client = Groq()
-                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) practicing exclusively in Rawalpindi, Islamabad, and the Rawalpindi Bar Association courts. Answer in clear Roman Urdu. End with: 'Kanooni mashware ke lie is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
+                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) practicing exclusively in Rawalpindi, Islamabad, and the Rawalpindi Bar Association courts. Answer in clear Roman Urdu. End with: 'Kanooni mashware ke lie is number per rabta krein: 03315605159'."
                 
                 response = client.chat.completions.create(
                     messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_query}],
@@ -115,7 +123,7 @@ with tab1:
             except Exception as e: 
                 st.error(f"Error: {e}")
 
-# TAB 2: Appointment System with 100% Fixed Clean Link Matrix
+# TAB 2: Appointment System
 db_file = "appointments.csv"
 with tab2:
     st.markdown("<div class='section-header'>Schedule a Private Consultation</div>", unsafe_allow_html=True)
@@ -133,12 +141,11 @@ with tab2:
                 
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
-            # FIXED WHATSAPP ROUTING UTILITY (Strict Number Formatting without Extra Special Symbols)
+            # FIXED CLEAN WHATSAPP LINK PROTOCOL (No Symbol Bugs)
+            t_phone = "923315605159"
             clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
             encoded_msg = urllib.parse.quote(clean_text)
-            
-            # Pure link query injection string
-            whatsapp_url = f"https://wa.me{encoded_msg}"
+            whatsapp_url = f"https://wa.me{t_phone}?text={encoded_msg}"
             
             st.link_button("📲 Click Here to Open WhatsApp Chat", whatsapp_url, use_container_width=True)
         else: 
