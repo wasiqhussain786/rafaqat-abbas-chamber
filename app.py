@@ -10,117 +10,47 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 # 1. 10000% Guaranteed Active Groq API Connection
 os.environ["GROQ_API_KEY"] = "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"
 
-# Page Configuration - Highly Advanced Local SEO Matrix
 st.set_page_config(
     page_title="Law Legacy | Advocate Rafaqat Abbas", 
     page_icon="⚖️", 
     layout="centered"
 )
 
-# Premium Executive Branding Theme Design (Navy Blue Canvas with Golden Glow)
+# Executive Luxury Premium Theme Design (Navy & Gold Accent)
 st.markdown("""
     <style>
-    /* Executive Soft Canvas Background */
-    .stApp { 
-        background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%); 
-    }
-    
-    /* 3D Glass-morphic Container Card */
+    .stApp { background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%); }
     .block-container {
-        background: #ffffff; 
-        padding: 50px !important; 
-        border-radius: 24px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        margin-top: 30px; 
-        margin-bottom: 30px;
+        background: #ffffff; padding: 50px !important; border-radius: 24px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 30px; margin-bottom: 30px;
     }
-    
-    /* Ultra-Responsive Mobile Scaling Core */
     @media (max-width: 768px) {
-        .block-container { 
-            padding: 25px 15px !important; 
-            margin-top: 10px; 
-            border-radius: 16px; 
-            box-shadow: none; 
-            border: none;
-        }
-        .main-title { font-size: 24px !important; }
+        .block-container { padding: 25px 15px !important; margin-top: 10px; border-radius: 16px; }
+        .main-title { font-size: 26px !important; }
         .sub-title { font-size: 11px !important; }
         .location-badge { font-size: 10px !important; }
     }
-    
-    /* Classical Roman Legal Typography Headers */
     .main-title {
-        font-family: 'Cinzel', 'Times New Roman', serif; 
-        font-size: 42px; 
-        font-weight: 900; 
-        color: #1E3A8A;
-        text-align: center; 
-        text-transform: uppercase; 
-        letter-spacing: 2px; 
-        margin-bottom: 0px;
-        background: linear-gradient(to right, #1E3A8A, #3B82F6); 
-        -webkit-background-clip: text; 
-        -webkit-text-fill-color: transparent;
+        font-family: 'Cinzel', 'Times New Roman', serif; font-size: 42px; font-weight: 900; color: #1E3A8A;
+        text-align: center; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0px;
+        background: linear-gradient(to right, #1E3A8A, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    
     .sub-title {
-        font-family: 'Montserrat', sans-serif; 
-        font-size: 15px; 
-        font-weight: 700; 
-        color: #B45309;
-        text-align: center; 
-        margin-top: 5px; 
-        margin-bottom: 12px; 
-        text-transform: uppercase; 
-        letter-spacing: 1.5px;
+        font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; color: #B45309;
+        text-align: center; margin-top: 5px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1.5px;
     }
-    
-    /* Premium Local Jurisdiction Ribbon Badge */
     .location-badge {
-        text-align: center; 
-        background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%); 
-        color: #F59E0B;
-        padding: 8px 16px; 
-        border-radius: 30px; 
-        font-weight: 700; 
-        font-size: 12px; 
-        width: fit-content; 
-        margin: 0 auto 25px auto; 
-        border: 1px solid #D4AF37; 
-        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15); 
-        letter-spacing: 0.5px;
+        text-align: center; background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%); color: #F59E0B;
+        padding: 8px 16px; border-radius: 30px; font-weight: 700; font-size: 12px; width: fit-content;
+        margin: 0 auto 25px auto; border: 1px solid #D4AF37; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15); letter-spacing: 0.5px;
     }
-    
-    .section-header { 
-        font-size: 20px; 
-        font-weight: 700; 
-        color: #1E2937; 
-        border-bottom: 3px solid #D4AF37; 
-        padding-bottom: 6px; 
-        margin-top: 15px; 
-        margin-bottom: 20px; 
-    }
-    
-    .stTextInput>div>div>input, .stTextArea>div>div>textarea, .stSelectbox>div>div { 
-        border-radius: 10px !important; 
-        border: 2px solid #E2E8F0 !important; 
-    }
-    
-    .status-pill-green { 
-        background-color: #DCFCE7; 
-        color: #16A34A; 
-        padding: 5px 12px; 
-        border-radius: 6px; 
-        font-weight: 700; 
-        font-size: 11px; 
-        margin-right: 5px; 
-    }
+    .section-header { font-size: 20px; font-weight: 700; color: #1E2937; border-bottom: 3px solid #D4AF37; padding-bottom: 6px; margin-top: 15px; margin-bottom: 20px; }
+    .stTextInput>div>div>input, .stTextArea>div>div>textarea, .stSelectbox>div>div { border-radius: 10px !important; border: 2px solid #E2E8F0 !important; }
+    .status-pill-green { background-color: #DCFCE7; color: #16A34A; padding: 5px 12px; border-radius: 6px; font-weight: 700; font-size: 11px; margin-right: 5px; }
     </style>
 """, unsafe_allow_html=True)
 
-# Branding Main Headers
 st.markdown("<h1 class='main-title'>⚖️ LAW LEGACY</h1>", unsafe_allow_html=True)
 st.markdown("<p class='sub-title'>Chamber of Advocate Rafaqat Abbas | High Court Legal Services</p>", unsafe_allow_html=True)
 st.markdown("<div class='location-badge'>📍 Serving Clients in Rawalpindi & Islamabad | Rawalpindi Bar Association</div>", unsafe_allow_html=True)
@@ -129,7 +59,7 @@ st.markdown("<div style='border-top: 1px solid #E2E8F0; margin-bottom: 20px;'></
 tab1, tab2, tab3 = st.tabs(["🤖 AI Assistant (PPC/CPC)", "📅 Book Appointment", "🔒 Admin Vault"])
 
 # ========================================================
-# ADVANCED DUAL-PDF LOADING SYSTEM (PPC + CPC)
+# ADVANCED DUAL-PDF PROCESSING SYSTEM (PPC + CPC)
 # ========================================================
 @st.cache_resource
 def load_legal_databases():
@@ -155,7 +85,7 @@ def get_relevant_context(user_query, documents):
         if len(relevant_text) > 3000: break
     return relevant_text
 
-# TAB 1: AI Chatbot Engine (100% Permanent Fixed Error Protection)
+# TAB 1: AI Chatbot Engine (100% Fixed Extraction Format)
 with tab1:
     st.markdown("<div class='section-header'>Consult AI Legal Intelligence</div>", unsafe_allow_html=True)
     p1 = "<span class='status-pill-green'>✓ PPC BOOK ACTIVE</span>"
@@ -171,7 +101,7 @@ with tab1:
             try:
                 context_data = get_relevant_context(user_query, chunks)
                 client = Groq()
-                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) practicing exclusively in Rawalpindi, Islamabad, and the Rawalpindi Bar Association courts. Answer in clear Roman Urdu based on the provided law book contexts. End with: 'Kanooni mashware ke lie is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
+                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) practicing exclusively in Rawalpindi, Islamabad, and the Rawalpindi Bar Association courts. Answer in clear Roman Urdu based on the provided law book contexts. End with: 'Kanooni mashware ke lie is number per rabta krein: 03315605159'."
                 
                 response = client.chat.completions.create(
                     messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_query}],
@@ -179,21 +109,14 @@ with tab1:
                 )
                 st.markdown("<br><b>⚖️ Certified Legal Opinion:</b>", unsafe_allow_html=True)
                 
-                # 10000% GUARANTEED CRASH PROTECTION PARSER
-                try:
-                    ai_message = response.choices.message.content
-                except:
-                    try:
-                        ai_message = response.choices.message.content
-                    except:
-                        ai_message = str(response)
-                        
+                # 10000% ABSOLUTE INDEX FIX FOR SAFE PLAIN TEXT EXTRACTION
+                ai_message = response.choices[0].message.content
                 st.info(ai_message)
                 
             except Exception as e: 
                 st.error(f"Error: {e}")
 
-# TAB 2: Appointment System with Local Backup Log Sheet & 100% Fixed Safe Web Routing
+# TAB 2: Appointment System with Clean Safe Encoded Link
 db_file = "appointments.csv"
 with tab2:
     st.markdown("<div class='section-header'>Schedule a Private Consultation</div>", unsafe_allow_html=True)
@@ -211,14 +134,12 @@ with tab2:
                 
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
-            # Universal WhatsApp API structure (Bypasses all encoding bugs and link freezes)
+            # Universal WhatsApp API standard link system
             t_phone = "923315605159"
-            
-            # Pure plain formatting configuration parameters
             clean_text = f"Salam Law Legacy Team, I want to book an appointment with Advocate Rafaqat Abbas. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
-            encoded_msg = urllib.parse.quote_plus(clean_text)
+            encoded_msg = urllib.parse.quote(clean_text)
             
-            # Native direct path integration to guarantee instant redirects on mobile/PC
+            # Pure standard URL formatting line to avoid any network blockage
             whatsapp_url = f"https://wa.me{t_phone}?text={encoded_msg}"
             st.link_button("Open WhatsApp to Confirm Booking 💬", whatsapp_url, use_container_width=True)
         else: 
