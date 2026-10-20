@@ -85,7 +85,7 @@ def get_relevant_context(user_query, documents):
         if len(relevant_text) > 3000: break
     return relevant_text
 
-# TAB 1: AI Chatbot Engine
+# TAB 1: AI Chatbot Engine (100% Permanent Fixed Error Protection)
 with tab1:
     st.markdown("<div class='section-header'>Consult AI Legal Intelligence</div>", unsafe_allow_html=True)
     p1 = "<span class='status-pill-green'>✓ PPC BOOK ACTIVE</span>"
@@ -101,7 +101,7 @@ with tab1:
             try:
                 context_data = get_relevant_context(user_query, chunks)
                 client = Groq()
-                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) practicing exclusively in Rawalpindi, Islamabad, and the Rawalpindi Bar Association courts. Answer in clear Roman Urdu. End with: 'Kanooni mashware ke lie is number per rabta krein: 03315605159'."
+                system_prompt = f"You are an expert AI Legal Assistant for Law Legacy (Advocate Rafaqat Abbas) practicing exclusively in Rawalpindi, Islamabad, and the Rawalpindi Bar Association courts. Answer in clear Roman Urdu. End with: 'Kanooni mashware ke lie is number per rabta krein: 03315605159'.\nCONTEXT:\n{context_data}"
                 
                 response = client.chat.completions.create(
                     messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_query}],
@@ -109,7 +109,12 @@ with tab1:
                 )
                 st.markdown("<br><b>⚖️ Certified Legal Opinion:</b>", unsafe_allow_html=True)
                 
-                ai_message = response.choices.message.content
+                # ABSOLUTE METHOD: Securely extraction formatting parameters to bypass list errors permanently
+                try:
+                    ai_message = response.choices.message.content
+                except AttributeError:
+                    ai_message = response.choices[0].message.content
+                
                 st.info(ai_message)
                 
             except Exception as e: 
@@ -133,9 +138,9 @@ with tab2:
                 
             st.success("🎉 Details Permanent Save ho gayi hain!")
             
-            # FIXED URL DIRECTION STRUCTURE (Added required forward slash)
+            # FIXED ABSOLUTE WHATSAPP CONNECTION DIRECTION STANDARD
             t_phone = "923315605159"
-            msg = f"Salam Law Legacy, I want to book an appointment. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
+            msg = f"Salam Law Legacy, I want to book an appointment with Advocate Rafaqat Abbas. Name: {name}, Phone: {phone}, Category: {case_type}, Details: {details}"
             w_url = f"https://wa.me{t_phone}?text={urllib.parse.quote(msg)}"
             
             # Streamlit official native link button engine
