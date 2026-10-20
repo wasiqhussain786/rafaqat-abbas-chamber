@@ -197,7 +197,9 @@ with tab1:
                 )
                 
                 st.markdown("<br><b style='color: #1E3A8A; font-size: 16px;'>⚖️ Official Certified Legal Opinion:</b>", unsafe_allow_html=True)
-                final_answer = response.choices.message.content
+                
+                # ABSOLUTE PERMANENT INDEX FIX [0] LOCKED HERE
+                final_answer = response.choices[0].message.content
                 st.info(final_answer)
                 
             except Exception as e:
